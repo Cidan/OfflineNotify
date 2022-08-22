@@ -1,0 +1,11 @@
+## Title: Offline Notify
+## Author: Cidan
+## Version: 0.0.1
+## AddOnVersion: 000001
+## APIVersion: 101034
+## SavedVariables: OfflineNotify_Settings
+
+strings\en.lua
+strings\$(language).lua
+
+main.lua
