@@ -13,7 +13,10 @@ jobs:
       - name: Create Zip
         run: |
           mkdir OfflineNotify
-          mv ./* OfflineNotify
+          mv ./*.lua OfflineNotify/
+          mv ./*.xml OfflineNotify/
+          mv ./*.txt OfflineNotify/
+          mv ./strings OfflineNotify/
           zip -9 OfflineNotify OfflineNotify.zip
       - name: Release
         uses: softprops/action-gh-release@v1
