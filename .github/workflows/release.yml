@@ -10,11 +10,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        run: |
+          mkdir OfflineNotify
+          mv ./* OfflineNotify
+          zip -9 OfflineNotify OfflineNotify.zip
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            strings
-            main.lua
-            main.xml
-            OfflineNotify.txt
+            OfflineNotify.zip
