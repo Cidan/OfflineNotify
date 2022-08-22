@@ -1,6 +1,6 @@
 ## Title: Offline Notify
 ## Author: Cidan
-## Version: 1.0.0
+## Version: 1.0.1
 ## AddOnVersion: 010001
 ## APIVersion: 101034
 ## SavedVariables: OfflineNotifySavedVariables
