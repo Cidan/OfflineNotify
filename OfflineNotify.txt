@@ -3,7 +3,8 @@
 ## Version: 0.0.1
 ## AddOnVersion: 000001
 ## APIVersion: 101034
-## SavedVariables: OfflineNotify_Settings
+## SavedVariables: OfflineNotifySavedVariables
+## DependsOn: LibNotification
 
 strings\en.lua
 strings\$(language).lua
