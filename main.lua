@@ -9,6 +9,7 @@ OFN.name = "OfflineNotify"
 function OFN.Initialize(event, addon)
   if addon ~= OFN.name then return end
   OFN.settings = ZO_SavedVars:NewAccountWide("OfflineNotifySavedVariables", 1, nil, {})
+  OFN.alerted = false
 
   -- Initialize the last seen timestamp if it's not set.
   OFN.settings.lastSeen = OFN.settings.lastSeen or GetTimeStamp()
@@ -34,6 +35,7 @@ end
 function OFN.OnPlayerStatus(event, oldStatus, newStatus)
   if newStatus == PLAYER_STATUS_OFFLINE then
     OFN.settings.lastSeen = GetTimeStamp()
+    OFN.alerted = false
   end
 end
 
@@ -62,12 +64,16 @@ end
 
 -- SendNotification sends a notification to the player via LibNotification.
 function OFN.SendNotification(diffTime)
-  hours = math.floor(diffTime / 60 / 60)
+  -- Display alerts only once per login, or per offline/online cycle.
+  if OFN.alerted then return end
+  
+  local hours = math.floor(diffTime / 60 / 60)
+  local msgText = string.format("You've been offline for over %d hours!", hours)
   local msg = {
     dataType                = NOTIFICATIONS_ALERT_DATA,
     secsSinceRequest        = ZO_NormalizeSecondsSince(0),
     note                    = "You should probably switch to online mode before you get kicked from all your guilds.",
-    message                 = string.format("You've been offline for over %d hours!", hours),
+    message                 = msgText,
     heading                 = "Offline Notify",
     texture                 = "/esoui/art/miscellaneous/eso_icon_warning.dds",
     shortDisplayText        = "Custom Notification",
@@ -80,6 +86,13 @@ function OFN.SendNotification(diffTime)
   }
   table.insert(OFN.provider.notifications, msg)
   OFN.provider:UpdateNotifications()
+
+  local alert = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(CSA_CATEGORY_LARGE_TEXT, SOUNDS.CHAMPION_POINT_GAINED)
+  alert:SetText(msgText)
+  alert:SetCSAType(CENTER_SCREEN_ANNOUNCE_TYPE_CHAMPION_POINT_GAINED)
+  alert:MarkSuppressIconFrame()
+	CENTER_SCREEN_ANNOUNCE:DisplayMessage(alert)
+  OFN.alerted = true
 end
 
 function doTimer()
