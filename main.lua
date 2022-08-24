@@ -91,7 +91,7 @@ function OFN.SendNotification(diffTime)
   alert:SetText(msgText)
   alert:SetCSAType(CENTER_SCREEN_ANNOUNCE_TYPE_CHAMPION_POINT_GAINED)
   alert:MarkSuppressIconFrame()
-	CENTER_SCREEN_ANNOUNCE:DisplayMessage(alert)
+	CENTER_SCREEN_ANNOUNCE:AddMessageWithParams(alert)
   OFN.alerted = true
 end
 
